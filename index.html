@@ -1,0 +1,1186 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gambar Teknik Dasar - Media Pembelajaran Interaktif</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pinkbrand: {
+                            50: '#FFF0F5',
+                            100: '#FFE4EC',
+                            200: '#FFB8D2',
+                            300: '#FF80AB',
+                            400: '#FF4D8D',
+                            500: '#E6005C',
+                            600: '#B30047',
+                            dark: '#2C1D26'
+                        },
+                        charcoal: '#2C2C2C'
+                    },
+                    fontFamily: {
+                        title: ['Fredoka', 'sans-serif'],
+                        body: ['Nunito', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'push-pink': '0 5px 0 0 #B30047',
+                        'push-white': '0 5px 0 0 #FFB8D2',
+                        'push-neutral': '0 5px 0 0 #D1D5DB',
+                        'card-soft': '0 10px 25px -5px rgba(255, 77, 141, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #2C1D26;
+            color: #2C2C2C;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .font-title {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFF0F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF80AB;
+            border-radius: 10px;
+        }
+
+        /* Interactive 3D Push Button Effect */
+        .btn-3d-pink {
+            background-color: #FF4D8D;
+            color: white;
+            box-shadow: 0 5px 0 0 #B30047;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-pink:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 0 #B30047;
+        }
+
+        .btn-3d-white {
+            background-color: #FFFFFF;
+            color: #E6005C;
+            box-shadow: 0 5px 0 0 #FFB8D2;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-white:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 0 #FFB8D2;
+        }
+
+        .btn-3d-gray {
+            background-color: #F3F4F6;
+            color: #4B5563;
+            box-shadow: 0 5px 0 0 #D1D5DB;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-gray:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 0 #D1D5DB;
+        }
+
+        /* Soft Floating Animations */
+        @keyframes float-subtle {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float-subtle 3s ease-in-out infinite;
+        }
+
+        /* Mobile App Viewport Container */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: #FFFFFF;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 60px rgba(0,0,0,0.4);
+            overflow-x: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .app-container {
+                min-height: 94vh;
+                margin: 3vh auto;
+                border-radius: 2.5rem;
+                border: 8px solid #3D2735;
+            }
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Main Mobile Application Frame -->
+    <div class="app-container w-full relative">
+
+        <header class="bg-gradient-to-r from-pinkbrand-400 to-pinkbrand-500 text-white p-4 sticky top-0 z-30 shadow-md rounded-b-3xl">
+            <div class="flex justify-between items-center">
+                <!-- Left Nav: Back Button & Title -->
+                <div class="flex items-center gap-2">
+                    <button id="btn-back" onclick="navTo('home')" class="hidden bg-white/20 hover:bg-white/30 text-white w-9 h-9 rounded-2xl flex items-center justify-center transition">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="w-9 h-9 bg-white text-pinkbrand-500 rounded-2xl flex items-center justify-center font-black shadow-inner">
+                            <i class="fa-solid fa-drafting-compass text-lg"></i>
+                        </div>
+                        <div>
+                            <h1 id="header-title" class="font-title font-bold text-base leading-tight tracking-wide">Gambar Teknik</h1>
+                            <p class="text-[10px] text-pinkbrand-100 font-semibold leading-none">Interaktif Learning</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Nav Controls: Audio, Fullscreen, XP Badge -->
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleAudio()" id="btn-audio" class="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center text-xs transition">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                    <button onclick="toggleFullscreen()" class="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center text-xs transition">
+                        <i class="fa-solid fa-expand"></i>
+                    </button>
+                    <div class="bg-white/20 px-3 py-1 rounded-full flex items-center gap-1.5 text-xs font-title font-bold shadow-sm">
+                        <i class="fa-solid fa-bolt text-yellow-300"></i>
+                        <span id="user-xp">0 XP</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 pb-24 space-y-5" id="main-scroll">
+
+            <!-- ================= PAGE 1: HOME ================= -->
+            <section id="page-home" class="space-y-5">
+                <!-- Banner Hero -->
+                <div class="bg-gradient-to-br from-pinkbrand-400 via-pinkbrand-400 to-pinkbrand-500 rounded-3xl p-5 text-white shadow-card-soft relative overflow-hidden">
+                    <div class="relative z-10 space-y-2">
+                        <span class="bg-white/20 text-white text-[10px] font-title font-bold px-3 py-1 rounded-full uppercase tracking-wider">Duolingo Mode</span>
+                        <h2 class="text-2xl font-title font-extrabold leading-tight">Kuasai Gambar Teknik Dengan Seru! 📐</h2>
+                        <p class="text-xs text-pinkbrand-100 leading-relaxed max-w-[85%]">Pelajari alat, jenis garis, proyeksi 3D & etiket dengan metode interaktif!</p>
+                        
+                        <div class="pt-2 flex gap-2">
+                            <button onclick="navTo('modul1')" class="btn-3d-white px-4 py-2.5 rounded-2xl font-title font-bold text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-play"></i> Mulai Modul
+                            </button>
+                            <button onclick="navTo('lab-garis')" class="bg-pinkbrand-600/40 hover:bg-pinkbrand-600/60 text-white border border-white/20 px-3 py-2.5 rounded-2xl font-title font-bold text-xs flex items-center gap-1.5">
+                                <i class="fa-solid fa-paintbrush"></i> Lab Garis
+                            </button>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-compass-drafting absolute -right-4 -bottom-4 text-9xl text-white/10 rotate-12 animate-float"></i>
+                </div>
+
+                <!-- Learning Progress Status Card -->
+                <div class="bg-pinkbrand-50 border-2 border-pinkbrand-100 p-4 rounded-3xl shadow-sm space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="font-title font-bold text-gray-700 uppercase tracking-wide">Progres Pembelajaran</span>
+                        <span id="progress-percent" class="font-title font-black text-pinkbrand-500">0%</span>
+                    </div>
+                    <div class="w-full bg-white rounded-full h-3.5 overflow-hidden p-0.5 border border-pinkbrand-200">
+                        <div id="progress-bar-fill" class="bg-gradient-to-r from-pinkbrand-300 to-pinkbrand-400 h-2.5 rounded-full transition-all duration-500 w-0"></div>
+                    </div>
+                </div>
+
+                <!-- Modules Roadmap Grid -->
+                <div class="space-y-3">
+                    <h3 class="font-title font-extrabold text-gray-800 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-pinkbrand-400"></i> Alur Modul Pembelajaran
+                    </h3>
+
+                    <!-- Modul 1 -->
+                    <div onclick="navTo('modul1')" class="bg-white border-2 border-pinkbrand-100 hover:border-pinkbrand-300 p-4 rounded-3xl transition cursor-pointer flex items-center gap-4 group shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-pinkbrand-100 text-pinkbrand-500 flex items-center justify-center font-black text-xl group-hover:scale-110 transition">
+                            ✏️
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-title font-bold text-gray-800 text-sm group-hover:text-pinkbrand-500 transition">Modul 1: Alat Gambar Teknik</h4>
+                            <p class="text-xs text-gray-500">Pengenalan Pensil 2H/HB/2B, Mistar T, Jangka & Kertas</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-pinkbrand-400 group-hover:translate-x-1 transition"></i>
+                    </div>
+
+                    <!-- Modul 2 -->
+                    <div onclick="navTo('modul2')" class="bg-white border-2 border-pinkbrand-100 hover:border-pinkbrand-300 p-4 rounded-3xl transition cursor-pointer flex items-center gap-4 group shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-pinkbrand-100 text-pinkbrand-500 flex items-center justify-center font-black text-xl group-hover:scale-110 transition">
+                            📏
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-title font-bold text-gray-800 text-sm group-hover:text-pinkbrand-500 transition">Modul 2: Jenis-jenis Garis</h4>
+                            <p class="text-xs text-gray-500">Garis Utama, Tipis, Terhalang, dan Garis Sumbu</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-pinkbrand-400 group-hover:translate-x-1 transition"></i>
+                    </div>
+
+                    <!-- Modul 3 -->
+                    <div onclick="navTo('modul3')" class="bg-white border-2 border-pinkbrand-100 hover:border-pinkbrand-300 p-4 rounded-3xl transition cursor-pointer flex items-center gap-4 group shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-pinkbrand-100 text-pinkbrand-500 flex items-center justify-center font-black text-xl group-hover:scale-110 transition">
+                            🧊
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-title font-bold text-gray-800 text-sm group-hover:text-pinkbrand-500 transition">Modul 3: Proyeksi Orthogonal</h4>
+                            <p class="text-xs text-gray-500">Proyeksi Eropa vs Amerika & Interactive 3D Simulator</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-pinkbrand-400 group-hover:translate-x-1 transition"></i>
+                    </div>
+
+                    <!-- Modul 4 -->
+                    <div onclick="navTo('modul4')" class="bg-white border-2 border-pinkbrand-100 hover:border-pinkbrand-300 p-4 rounded-3xl transition cursor-pointer flex items-center gap-4 group shadow-sm hover:shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-pinkbrand-100 text-pinkbrand-500 flex items-center justify-center font-black text-xl group-hover:scale-110 transition">
+                            📋
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-title font-bold text-gray-800 text-sm group-hover:text-pinkbrand-500 transition">Modul 4: Etiket & Skala</h4>
+                            <p class="text-xs text-gray-500">Standar Kepala Gambar & Interactive Builder</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-pinkbrand-400 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Interactive Quick Tools Feature Grid -->
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button onclick="navTo('lab-garis')" class="p-3.5 bg-pinkbrand-50 rounded-3xl border-2 border-pinkbrand-200 text-left hover:bg-pinkbrand-100 transition flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-pinkbrand-400 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-paintbrush"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-title font-bold text-gray-800">Lab Garis</span>
+                            <span class="text-[10px] text-gray-500">Coba Canvas</span>
+                        </div>
+                    </button>
+
+                    <button onclick="navTo('kuis')" class="p-3.5 bg-pinkbrand-50 rounded-3xl border-2 border-pinkbrand-200 text-left hover:bg-pinkbrand-100 transition flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-pinkbrand-400 text-white flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-title font-bold text-gray-800">Kuis Evaluasi</span>
+                            <span class="text-[10px] text-gray-500">Uji XP Kamu</span>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 2: MODUL 1 (ALAT GAMBAR) ================= -->
+            <section id="page-modul1" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <span class="text-[10px] font-title font-bold uppercase bg-white/20 px-2.5 py-0.5 rounded-full">Modul 1</span>
+                    <h3 class="text-xl font-title font-extrabold mt-1">Alat Gambar Teknik</h3>
+                    <p class="text-xs text-pinkbrand-100">Klik ikon alat di bawah untuk mempelajari fungsi dan klasifikasinya!</p>
+                </div>
+
+                <!-- Tool Category Buttons -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectTool('pensil')" class="tool-tab-btn border-2 border-pinkbrand-400 bg-pinkbrand-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">✏️</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Pensil Teknik</span>
+                    </button>
+                    <button onclick="selectTool('mistar')" class="tool-tab-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">📐</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Mistar T</span>
+                    </button>
+                    <button onclick="selectTool('kertas')" class="tool-tab-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">📄</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Kertas A0-A4</span>
+                    </button>
+                    <button onclick="selectTool('jangka')" class="tool-tab-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">📌</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Jangka</span>
+                    </button>
+                    <button onclick="selectTool('mal')" class="tool-tab-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">📏</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Mal Sablon</span>
+                    </button>
+                    <button onclick="selectTool('papan')" class="tool-tab-btn border-2 border-transparent bg-gray-50 p-3 rounded-2xl text-center transition">
+                        <div class="text-2xl mb-1">🗄️</div>
+                        <span class="text-xs font-title font-bold text-gray-700 block">Meja Gambar</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Tool Detail Viewer -->
+                <div id="tool-detail-box" class="bg-white p-5 rounded-3xl border-2 border-pinkbrand-100 shadow-sm space-y-3">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex justify-between pt-2">
+                    <button onclick="completeModul('m1'); navTo('home')" class="text-xs font-title font-bold text-gray-500 hover:text-pinkbrand-500">
+                        <i class="fa-solid fa-check"></i> Selesai
+                    </button>
+                    <button onclick="completeModul('m1'); navTo('modul2')" class="btn-3d-pink px-4 py-2 rounded-2xl font-title font-bold text-xs flex items-center gap-1.5">
+                        Lanjut Modul 2 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 3: MODUL 2 (JENIS GARIS) ================= -->
+            <section id="page-modul2" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <span class="text-[10px] font-title font-bold uppercase bg-white/20 px-2.5 py-0.5 rounded-full">Modul 2</span>
+                    <h3 class="text-xl font-title font-extrabold mt-1">Jenis-jenis Garis Teknik</h3>
+                    <p class="text-xs text-pinkbrand-100">Garis adalah bahasa gambar teknik. Setiap bentuk dan ketebalan garis memiliki arti!</p>
+                </div>
+
+                <!-- List of Standard Lines -->
+                <div class="space-y-3" id="line-types-list">
+                    <!-- Rendered JS -->
+                </div>
+
+                <div class="p-4 bg-pinkbrand-50 border-2 border-pinkbrand-200 rounded-3xl text-center space-y-2">
+                    <p class="text-xs font-bold text-gray-700">Ingin mencoba menggambar garis teknik secara langsung?</p>
+                    <button onclick="navTo('lab-garis')" class="btn-3d-pink w-full py-2.5 rounded-2xl font-title font-bold text-xs">
+                        <i class="fa-solid fa-paintbrush mr-1"></i> Buka Lab Garis Interaktif
+                    </button>
+                </div>
+
+                <div class="flex justify-between pt-2">
+                    <button onclick="navTo('modul1')" class="text-xs font-title font-bold text-gray-500 hover:text-pinkbrand-500">
+                        <i class="fa-solid fa-arrow-left"></i> Modul 1
+                    </button>
+                    <button onclick="completeModul('m2'); navTo('modul3')" class="btn-3d-pink px-4 py-2 rounded-2xl font-title font-bold text-xs flex items-center gap-1.5">
+                        Lanjut Modul 3 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 4: MODUL 3 (PROYEKSI 3D TO 2D SIMULATOR) ================= -->
+            <section id="page-modul3" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <span class="text-[10px] font-title font-bold uppercase bg-white/20 px-2.5 py-0.5 rounded-full">Modul 3</span>
+                    <h3 class="text-xl font-title font-extrabold mt-1">Proyeksi Orthogonal</h3>
+                    <p class="text-xs text-pinkbrand-100">Proyeksi Eropa (Kuadran I) vs Amerika (Kuadran III) & Simulator Canvas 3D!</p>
+                </div>
+
+                <!-- Projection Mode Selector Tabs -->
+                <div class="flex bg-gray-100 p-1.5 rounded-2xl border border-gray-200">
+                    <button id="tab-eropa" onclick="setProjectionMode('eropa')" class="flex-1 py-2 rounded-xl font-title text-xs font-extrabold bg-pinkbrand-400 text-white shadow-sm transition">
+                        Proyeksi Eropa (I)
+                    </button>
+                    <button id="tab-amerika" onclick="setProjectionMode('amerika')" class="flex-1 py-2 rounded-xl font-title text-xs font-extrabold text-gray-600 transition">
+                        Proyeksi Amerika (III)
+                    </button>
+                </div>
+
+                <!-- Explanation Box -->
+                <div id="projection-info-box" class="bg-white p-4 rounded-3xl border-2 border-pinkbrand-100 text-xs text-gray-700 leading-relaxed">
+                    <!-- Dynamic Text -->
+                </div>
+
+                <!-- Simulator Interactive Canvas -->
+                <div class="bg-white p-4 rounded-3xl border-2 border-pinkbrand-200 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="font-title font-bold text-xs text-gray-800">SIMULATOR PROYEKSI INTERAKTIF</span>
+                        <span id="proj-view-tag" class="bg-pinkbrand-100 text-pinkbrand-600 text-[10px] font-title font-bold px-2 py-0.5 rounded-full">ISOMETRI 3D</span>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-2xl p-2 flex flex-col items-center justify-center relative min-h-[220px] overflow-hidden">
+                        <canvas id="proj-canvas" width="280" height="200" class="max-w-full cursor-pointer"></canvas>
+                        <span class="absolute bottom-2 left-2 text-[9px] font-mono text-pinkbrand-200 bg-black/60 px-2 py-0.5 rounded">
+                            Drag / Klik tombol untuk ubah sudut pandang
+                        </span>
+                    </div>
+
+                    <!-- Projection View Angle Control Buttons -->
+                    <div class="grid grid-cols-4 gap-1.5">
+                        <button onclick="drawProjection('3d')" class="btn-3d-pink py-2 rounded-xl font-title text-[11px] font-bold">
+                            🧊 3D
+                        </button>
+                        <button onclick="drawProjection('depan')" class="btn-3d-gray py-2 rounded-xl font-title text-[11px] font-bold">
+                            👁️ Depan
+                        </button>
+                        <button onclick="drawProjection('atas')" class="btn-3d-gray py-2 rounded-xl font-title text-[11px] font-bold">
+                            ⬇️ Atas
+                        </button>
+                        <button onclick="drawProjection('samping')" class="btn-3d-gray py-2 rounded-xl font-title text-[11px] font-bold">
+                            ➡️ Samping
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-2">
+                    <button onclick="navTo('modul2')" class="text-xs font-title font-bold text-gray-500 hover:text-pinkbrand-500">
+                        <i class="fa-solid fa-arrow-left"></i> Modul 2
+                    </button>
+                    <button onclick="completeModul('m3'); navTo('modul4')" class="btn-3d-pink px-4 py-2 rounded-2xl font-title font-bold text-xs flex items-center gap-1.5">
+                        Lanjut Modul 4 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= PAGE 5: MODUL 4 (ETIKET & SKALA) ================= -->
+            <section id="page-modul4" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <span class="text-[10px] font-title font-bold uppercase bg-white/20 px-2.5 py-0.5 rounded-full">Modul 4</span>
+                    <h3 class="text-xl font-title font-extrabold mt-1">Etiket Gambar & Skala</h3>
+                    <p class="text-xs text-pinkbrand-100">Etiket (Kepala Gambar) memuat seluruh identitas fisik dan teknis gambar kerja.</p>
+                </div>
+
+                <!-- Interactive Etiket Builder Simulator -->
+                <div class="bg-white p-4 rounded-3xl border-2 border-pinkbrand-200 shadow-sm space-y-4">
+                    <h4 class="font-title font-extrabold text-xs text-gray-800 uppercase tracking-wide">Simulasi Pengisian Etiket Gambar</h4>
+
+                    <!-- Visual Etiket Canvas Frame -->
+                    <div class="border-2 border-gray-900 p-2.5 bg-white rounded-xl font-mono text-[10px] space-y-1.5 shadow-inner">
+                        <div class="border-b-2 border-gray-900 pb-1 flex justify-between font-bold text-pinkbrand-600">
+                            <span id="etiket-view-instansi">INSTANSI: [NAMA SEKOLAH/INSTANSI]</span>
+                            <span id="etiket-view-skala">SKALA: 1:1</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 border-b-2 border-gray-900 pb-1">
+                            <div>JUDUL: <span id="etiket-view-judul" class="font-bold text-gray-900">[JUDUL GAMBAR]</span></div>
+                            <div>DIGAMBAR: <span id="etiket-view-nama" class="font-bold text-gray-900">[NAMA PEMBUAT]</span></div>
+                        </div>
+                        <div class="flex justify-between text-[9px] text-gray-500 font-sans">
+                            <span>SATUAN: mm</span>
+                            <span id="etiket-view-tgl">TANGGAL: 2026-10-01</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Controls -->
+                    <div class="space-y-2.5 text-xs">
+                        <div>
+                            <label class="font-title font-bold text-gray-700 block mb-1">Judul Gambar Kerja:</label>
+                            <input type="text" id="input-judul" oninput="updateEtiketBuilder()" placeholder="Misal: Poros Bertingkat" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-pinkbrand-400 outline-none">
+                        </div>
+                        <div>
+                            <label class="font-title font-bold text-gray-700 block mb-1">Nama Pembuat / Siswa:</label>
+                            <input type="text" id="input-nama" oninput="updateEtiketBuilder()" placeholder="Nama Lengkap Anda" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-pinkbrand-400 outline-none">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="font-title font-bold text-gray-700 block mb-1">Instansi:</label>
+                                <input type="text" id="input-instansi" oninput="updateEtiketBuilder()" placeholder="SMK / Kampus" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-pinkbrand-400 outline-none">
+                            </div>
+                            <div>
+                                <label class="font-title font-bold text-gray-700 block mb-1">Kategori Skala:</label>
+                                <select id="input-skala" onchange="updateEtiketBuilder()" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-pinkbrand-400 outline-none bg-white">
+                                    <option value="1:1">1:1 (Skala Penuh)</option>
+                                    <option value="1:2">1:2 (Pengecilan)</option>
+                                    <option value="2:1">2:1 (Pembesaran)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between pt-2">
+                    <button onclick="navTo('modul3')" class="text-xs font-title font-bold text-gray-500 hover:text-pinkbrand-500">
+                        <i class="fa-solid fa-arrow-left"></i> Modul 3
+                    </button>
+                    <button onclick="completeModul('m4'); navTo('kuis')" class="btn-3d-pink px-4 py-2 rounded-2xl font-title font-bold text-xs flex items-center gap-1.5">
+                        Uji Pemahaman Kuis <i class="fa-solid fa-gamepad"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= FEATURE: LAB GARIS CANVAS INTERAKTIF ================= -->
+            <section id="page-lab-garis" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <h3 class="text-lg font-title font-extrabold"><i class="fa-solid fa-paintbrush mr-1"></i> Lab Garis Interaktif</h3>
+                    <p class="text-xs text-pinkbrand-100">Cobalah menggambar langsung di canvas untuk merasakan perbedaan jenis pensil dan tipe garis teknik!</p>
+                </div>
+
+                <!-- Canvas Control Tools -->
+                <div class="bg-white p-4 rounded-3xl border-2 border-pinkbrand-200 shadow-sm space-y-3">
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setLabTool(4, 'solid')" class="btn-lab-style btn-3d-pink py-2 rounded-xl text-[10px] font-title font-bold">
+                            ✏️ Pensil 2B (Tebal)
+                        </button>
+                        <button onclick="setLabTool(1.5, 'solid')" class="btn-lab-style btn-3d-gray py-2 rounded-xl text-[10px] font-title font-bold">
+                            ✏️ Pensil 2H (Tipis)
+                        </button>
+                        <button onclick="setLabTool(3, 'dashed')" class="btn-lab-style btn-3d-gray py-2 rounded-xl text-[10px] font-title font-bold">
+                            ➖ Putus-Putus
+                        </button>
+                    </div>
+
+                    <!-- Draw Canvas -->
+                    <div class="border-2 border-dashed border-pinkbrand-300 rounded-2xl overflow-hidden bg-pinkbrand-50/30">
+                        <canvas id="lab-canvas" width="380" height="220" class="w-full touch-none cursor-crosshair"></canvas>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button onclick="clearLabCanvas()" class="text-xs text-red-500 font-title font-bold hover:underline">
+                            <i class="fa-solid fa-trash"></i> Bersihkan Canvas
+                        </button>
+                        <span class="text-[10px] text-gray-400 font-semibold">Gunakan jari atau mouse</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= FEATURE: KUIS INTERAKTIF ================= -->
+            <section id="page-kuis" class="hidden space-y-4">
+                <div class="bg-white p-5 rounded-3xl border-2 border-pinkbrand-200 shadow-card-soft space-y-4">
+                    <!-- Quiz Progress Indicator -->
+                    <div class="flex justify-between items-center pb-2 border-b border-gray-100">
+                        <span id="quiz-question-counter" class="text-xs font-title font-extrabold text-pinkbrand-500 uppercase tracking-wider">Soal 1 dari 5</span>
+                        <div class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-xs font-title font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-star text-yellow-500"></i> <span id="quiz-live-score">Skor: 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <h3 id="quiz-question-text" class="font-title font-extrabold text-gray-800 text-sm leading-relaxed min-h-[44px]">
+                        Pertanyaan kuis sedang dimuat...
+                    </h3>
+
+                    <!-- Options Container -->
+                    <div id="quiz-options-box" class="space-y-2.5">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+
+                    <!-- Instant Feedback Banner -->
+                    <div id="quiz-feedback-box" class="hidden p-3.5 rounded-2xl text-xs font-bold leading-relaxed transition-all">
+                    </div>
+
+                    <!-- Next Question Action Button -->
+                    <button id="btn-next-question" onclick="nextQuizQuestion()" class="hidden btn-3d-pink w-full py-3 rounded-2xl font-title font-extrabold text-sm">
+                        Pertanyaan Selanjutnya <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- ================= FEATURE: GLOSARIUM & KAMUS ================= -->
+            <section id="page-glossary" class="hidden space-y-4">
+                <div class="bg-pinkbrand-400 p-4 rounded-3xl text-white shadow-card-soft">
+                    <h3 class="text-lg font-title font-extrabold"><i class="fa-solid fa-book-bookmark mr-1"></i> Glosarium Gambar Teknik</h3>
+                    <p class="text-xs text-pinkbrand-100">Kamus cepat istilah teknis dan penjelasan singkatnya.</p>
+                </div>
+
+                <!-- Search Input Bar -->
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400 text-xs"></i>
+                    <input type="text" id="glossary-search-input" onkeyup="filterGlossaryTerms()" placeholder="Cari istilah... (misal: Etiket, Isometri)" class="w-full pl-10 pr-4 py-2.5 rounded-2xl border-2 border-pinkbrand-100 text-xs font-semibold focus:ring-2 focus:ring-pinkbrand-400 outline-none bg-white">
+                </div>
+
+                <!-- Terms List Container -->
+                <div id="glossary-list-box" class="space-y-2.5">
+                    <!-- Loaded JS -->
+                </div>
+            </section>
+
+            <!-- ================= FEATURE: SERTIFIKAT & PENCAPAIAN ================= -->
+            <section id="page-certificate" class="hidden space-y-4">
+                <div class="bg-white p-6 rounded-3xl text-center space-y-4 border-2 border-pinkbrand-300 shadow-card-soft relative overflow-hidden">
+                    <div class="w-16 h-16 bg-gradient-to-tr from-yellow-400 to-amber-200 text-white rounded-full flex items-center justify-center text-3xl mx-auto shadow-lg animate-float">
+                        🏆
+                    </div>
+
+                    <div>
+                        <span class="text-[10px] font-title font-extrabold text-pinkbrand-500 uppercase tracking-widest">Sertifikat Kelulusan</span>
+                        <h3 class="text-xl font-title font-black text-gray-800">Media Pembelajaran Gambar Teknik</h3>
+                    </div>
+
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                        Selamat! Anda telah berhasil mempelajari seluruh modul materi dan lulus uji kompetensi kuis interaktif.
+                    </p>
+
+                    <!-- Score Box -->
+                    <div class="bg-pinkbrand-50 p-4 rounded-2xl border border-pinkbrand-200 grid grid-cols-2 gap-2 text-center">
+                        <div>
+                            <span class="block text-[10px] text-gray-500 font-title font-bold uppercase">Skor Kuis</span>
+                            <span id="cert-score-display" class="text-xl font-title font-black text-pinkbrand-500">0 / 100</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-gray-500 font-title font-bold uppercase">Status</span>
+                            <span id="cert-status-display" class="text-xs font-title font-black text-emerald-600 mt-1 block">Selesai</span>
+                        </div>
+                    </div>
+
+                    <button onclick="resetLearningState()" class="text-xs text-rose-500 font-title font-bold hover:underline block mx-auto pt-2">
+                        <i class="fa-solid fa-rotate-right"></i> Reset Seluruh Progres
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Fixed Mobile Bottom Navigation -->
+        <nav class="bg-white border-t-2 border-pinkbrand-100 p-2 fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto z-30 flex justify-around items-center rounded-t-3xl shadow-lg">
+            <button onclick="navTo('home')" class="nav-tab flex flex-col items-center gap-0.5 text-pinkbrand-500">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[10px] font-title font-bold">Beranda</span>
+            </button>
+            <button onclick="navTo('modul1')" class="nav-tab flex flex-col items-center gap-0.5 text-gray-400 hover:text-pinkbrand-500">
+                <i class="fa-solid fa-book-open text-base"></i>
+                <span class="text-[10px] font-title font-bold">Modul</span>
+            </button>
+            <button onclick="navTo('kuis')" class="nav-tab flex flex-col items-center gap-0.5 text-gray-400 hover:text-pinkbrand-500">
+                <i class="fa-solid fa-gamepad text-base"></i>
+                <span class="text-[10px] font-title font-bold">Kuis</span>
+            </button>
+            <button onclick="navTo('glossary')" class="nav-tab flex flex-col items-center gap-0.5 text-gray-400 hover:text-pinkbrand-500">
+                <i class="fa-solid fa-bookmark text-base"></i>
+                <span class="text-[10px] font-title font-bold">Glosarium</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script>
+        /* =============================================================
+         * STATE MANAGEMENT & STORAGE
+         * =========================================================== */
+        let state = {
+            xp: 0,
+            completedModules: { m1: false, m2: false, m3: false, m4: false },
+            quizHighScore: 0,
+            audioEnabled: true
+        };
+
+        if (localStorage.getItem('gt_edu_state')) {
+            try {
+                state = JSON.parse(localStorage.getItem('gt_edu_state'));
+            } catch (e) {}
+        }
+
+        function saveState() {
+            localStorage.setItem('gt_edu_state', JSON.stringify(state));
+            updateUIState();
+        }
+
+        /* =============================================================
+         * AUDIO SYNTHESIZER (WEB AUDIO API)
+         * =========================================================== */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!state.audioEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'correct') {
+                    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function toggleAudio() {
+            state.audioEnabled = !state.audioEnabled;
+            const btn = document.getElementById('btn-audio');
+            btn.innerHTML = state.audioEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+            saveState();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
+        /* =============================================================
+         * NAVIGATION & PAGE ROUTING
+         * =========================================================== */
+        function navTo(pageId) {
+            playSound('click');
+            const pages = ['home', 'modul1', 'modul2', 'modul3', 'modul4', 'lab-garis', 'kuis', 'glossary', 'certificate'];
+            
+            pages.forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const target = document.getElementById(`page-${pageId}`);
+            if (target) {
+                target.classList.remove('hidden');
+                document.getElementById('main-scroll').scrollTop = 0;
+            }
+
+            // Header Back Button
+            const btnBack = document.getElementById('btn-back');
+            if (pageId === 'home') {
+                btnBack.classList.add('hidden');
+            } else {
+                btnBack.classList.remove('hidden');
+            }
+
+            // Page Titles
+            const titles = {
+                'home': 'Gambar Teknik',
+                'modul1': 'Modul 1: Alat Gambar',
+                'modul2': 'Modul 2: Jenis Garis',
+                'modul3': 'Modul 3: Proyeksi',
+                'modul4': 'Modul 4: Etiket & Skala',
+                'lab-garis': 'Lab Garis Interaktif',
+                'kuis': 'Kuis Evaluasi',
+                'glossary': 'Glosarium Istilah',
+                'certificate': 'Sertifikat'
+            };
+            document.getElementById('header-title').innerText = titles[pageId] || 'Gambar Teknik';
+
+            // Initializations per page
+            if (pageId === 'modul1') selectTool('pensil');
+            if (pageId === 'modul2') renderLineTypes();
+            if (pageId === 'modul3') { setProjectionMode('eropa'); drawProjection('3d'); }
+            if (pageId === 'modul4') updateEtiketBuilder();
+            if (pageId === 'lab-garis') initLabCanvas();
+            if (pageId === 'kuis' && quizState.currentIndex === 0) startQuiz();
+
+            updateUIState();
+        }
+
+        function updateUIState() {
+            document.getElementById('user-xp').innerText = `${state.xp} XP`;
+
+            // Calculate Progress Percentage
+            const totalMod = 4;
+            const completedCount = Object.values(state.completedModules).filter(Boolean).length;
+            const pct = Math.round((completedCount / totalMod) * 100);
+
+            document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+            document.getElementById('progress-percent').innerText = `${pct}%`;
+
+            // Certificate Details
+            document.getElementById('cert-score-display').innerText = `${state.quizHighScore} / 100`;
+            document.getElementById('cert-status-display').innerText = pct === 100 ? '100% Lulus' : `${pct}% Dalam Progres`;
+        }
+
+        function completeModul(modKey) {
+            if (!state.completedModules[modKey]) {
+                state.completedModules[modKey] = true;
+                state.xp += 25;
+                saveState();
+            }
+        }
+
+        function resetLearningState() {
+            if (confirm("Reset semua hasil dan progres pembelajaran?")) {
+                state = {
+                    xp: 0,
+                    completedModules: { m1: false, m2: false, m3: false, m4: false },
+                    quizHighScore: 0,
+                    audioEnabled: true
+                };
+                saveState();
+                navTo('home');
+            }
+        }
+
+        /* =============================================================
+         * MODUL 1: TOOL SELECTION LOGIC
+         * =========================================================== */
+        const toolDataMap = {
+            pensil: {
+                title: 'Pensil Gambar Teknik (2H, HB, 2B)',
+                tag: 'Kekerasan Pensil',
+                desc: 'Pensil gambar dikategorikan berdasarkan tingkat kekerasannya:',
+                items: [
+                    '<strong>Keras (H - 9H / 2H):</strong> Menghasilkan garis tipis presisi. Digunakan untuk garis proyeksi bantu.',
+                    '<strong>Sedang (HB, F):</strong> Digunakan untuk penulisan huruf & angka etiket.',
+                    '<strong>Lunak (B - 7B / 2B):</strong> Menghasilkan garis hitam tebal untuk objek utama.'
+                ]
+            },
+            mistar: {
+                title: 'Mistar T & Sepasang Segitiga',
+                tag: 'Alat Kepresisian',
+                desc: 'Digunakan untuk menarik garis lurus horizontal dan sudut presisi:',
+                items: [
+                    '<strong>Mistar T:</strong> Dipasang pada tepi meja untuk garis mendatar.',
+                    '<strong>Penggaris Segitiga (45° & 30°/60°):</strong> Digunakan berpasangan untuk membuat garis tegak lurus dan sejajar.'
+                ]
+            },
+            kertas: {
+                title: 'Kertas Gambar (Seri ISO A)',
+                tag: 'Standardisasi',
+                desc: 'Standar ukuran kertas ISO dimana A0 berluas 1 m²:',
+                items: [
+                    '<strong>A0:</strong> 841 x 1189 mm',
+                    '<strong>A1:</strong> 594 x 841 mm',
+                    '<strong>A2:</strong> 420 x 594 mm',
+                    '<strong>A3:</strong> 297 x 420 mm (Paling umum digunakan)',
+                    '<strong>A4:</strong> 210 x 297 mm'
+                ]
+            },
+            jangka: {
+                title: 'Jangka Teknik',
+                tag: 'Pembuat Lingkaran',
+                desc: 'Digunakan untuk menggambar busur dan lingkaran presisi:',
+                items: [
+                    '<strong>Jangka Besar:</strong> Lingkaran diameter 100 - 200 mm.',
+                    '<strong>Jangka Pegas:</strong> Lingkaran kecil presisi tinggi.'
+                ]
+            },
+            mal: {
+                title: 'Mal Sablon (Pattern Template)',
+                tag: 'Efisiensi',
+                desc: 'Cetakan khusus untuk mempercepat menggambar simbol, huruf, lingkaran kecil, dan lengkungan halus (Mal Kurva).'
+            },
+            papan: {
+                title: 'Meja & Papan Gambar',
+                tag: 'Landasan Kerja',
+                desc: 'Papan rata berlapis alas khusus agar penarikan garis presisi dan kertas tidak mudah rusak.'
+            }
+        };
+
+        function selectTool(key) {
+            playSound('click');
+            const data = toolDataMap[key];
+            if (!data) return;
+
+            const box = document.getElementById('tool-detail-box');
+            box.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <h4 class="font-title font-extrabold text-gray-800 text-sm">${data.title}</h4>
+                    <span class="bg-pinkbrand-100 text-pinkbrand-600 text-[10px] font-title font-bold px-2 py-0.5 rounded-full">${data.tag}</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">${data.desc}</p>
+                ${data.items ? `<div class="bg-pinkbrand-50 p-3 rounded-2xl border border-pinkbrand-100 text-xs space-y-1 text-gray-700">${data.items.map(i => `<div>• ${i}</div>`).join('')}</div>` : ''}
+            `;
+        }
+
+        /* =============================================================
+         * MODUL 2: LINE TYPES RENDERER
+         * =========================================================== */
+        const lineList = [
+            {
+                name: 'Garis Tebal Kontinu',
+                thick: '0.5 - 0.7 mm',
+                use: 'Garis benda utama yang terlihat langsung.',
+                svg: '<line x1="10" y1="15" x2="250" y2="15" stroke="#E6005C" stroke-width="4"/>'
+            },
+            {
+                name: 'Garis Tipis Kontinu',
+                thick: '0.25 mm',
+                use: 'Garis ukur, garis bantu, dan garis arsir.',
+                svg: '<line x1="10" y1="15" x2="250" y2="15" stroke="#E6005C" stroke-width="1.5"/>'
+            },
+            {
+                name: 'Garis Putus-Putus (Dashed)',
+                thick: '0.35 mm',
+                use: 'Garis benda terhalang / tidak kelihatan.',
+                svg: '<line x1="10" y1="15" x2="250" y2="15" stroke="#E6005C" stroke-width="3" stroke-dasharray="8,6"/>'
+            },
+            {
+                name: 'Garis Strip-Titik (Dash-Dot)',
+                thick: '0.25 mm',
+                use: 'Garis sumbu simetri dan posisi lintasan.',
+                svg: '<line x1="10" y1="15" x2="250" y2="15" stroke="#E6005C" stroke-width="2" stroke-dasharray="12,4,2,4"/>'
+            }
+        ];
+
+        function renderLineTypes() {
+            const container = document.getElementById('line-types-list');
+            container.innerHTML = lineList.map(item => `
+                <div class="bg-white p-4 rounded-3xl border-2 border-pinkbrand-100 shadow-sm space-y-2">
+                    <div class="flex justify-between items-center">
+                        <h5 class="font-title font-extrabold text-xs text-gray-800">${item.name}</h5>
+                        <span class="text-[10px] font-mono bg-gray-100 px-2 py-0.5 rounded text-gray-600 font-bold">${item.thick}</span>
+                    </div>
+                    <div class="bg-pinkbrand-50/50 p-2 rounded-xl flex items-center justify-center border border-pinkbrand-100">
+                        <svg width="260" height="30" class="max-w-full">${item.svg}</svg>
+                    </div>
+                    <p class="text-[11px] text-gray-600"><strong>Fungsi:</strong> ${item.use}</p>
+                </div>
+            `).join('');
+        }
+
+        /* =============================================================
+         * MODUL 3: PROJECTION SIMULATOR (CANVAS)
+         * =========================================================== */
+        let currentProjMode = 'eropa';
+
+        function setProjectionMode(mode) {
+            playSound('click');
+            currentProjMode = mode;
+            const btnE = document.getElementById('tab-eropa');
+            const btnA = document.getElementById('tab-amerika');
+            const info = document.getElementById('projection-info-box');
+
+            if (mode === 'eropa') {
+                btnE.className = "flex-1 py-2 rounded-xl font-title text-xs font-extrabold bg-pinkbrand-400 text-white shadow-sm transition";
+                btnA.className = "flex-1 py-2 rounded-xl font-title text-xs font-extrabold text-gray-600 transition";
+                info.innerHTML = "<strong>Proyeksi Eropa (Kuadran I):</strong> Pandangan Atas berada di <em>BAWAH</em> pandangan depan, dan Pandangan Samping Kanan berada di <em>KIRI</em> pandangan depan.";
+            } else {
+                btnA.className = "flex-1 py-2 rounded-xl font-title text-xs font-extrabold bg-pinkbrand-400 text-white shadow-sm transition";
+                btnE.className = "flex-1 py-2 rounded-xl font-title text-xs font-extrabold text-gray-600 transition";
+                info.innerHTML = "<strong>Proyeksi Amerika (Kuadran III):</strong> Tata letak pandangan intuitif sesuai arah pandang. Pandangan Atas berada di <em>ATAS</em> pandangan depan.";
+            }
+        }
+
+        function drawProjection(type) {
+            playSound('click');
+            const canvas = document.getElementById('proj-canvas');
+            const ctx = canvas.getContext('2d');
+            const tag = document.getElementById('proj-view-tag');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#FF4D8D';
+            ctx.fillStyle = '#FFE4EC';
+
+            if (type === '3d') {
+                tag.innerText = "ISOMETRI 3D (OBJEK L)";
+                // Draw Isometric Steps Object
+                ctx.beginPath();
+                ctx.fillRect(90, 110, 60, 40); ctx.strokeRect(90, 110, 60, 40);
+                ctx.fillRect(90, 70, 30, 40); ctx.strokeRect(90, 70, 30, 40);
+                
+                ctx.beginPath();
+                ctx.moveTo(150, 110); ctx.lineTo(190, 80);
+                ctx.moveTo(150, 150); ctx.lineTo(190, 120);
+                ctx.moveTo(190, 80); ctx.lineTo(190, 120);
+                ctx.moveTo(120, 70); ctx.lineTo(160, 40);
+                ctx.moveTo(120, 110); ctx.lineTo(160, 80);
+                ctx.moveTo(160, 40); ctx.lineTo(190, 80);
+                ctx.stroke();
+            } else if (type === 'depan') {
+                tag.innerText = "PANDANGAN DEPAN (2D)";
+                ctx.beginPath();
+                ctx.moveTo(100, 50); ctx.lineTo(140, 50);
+                ctx.lineTo(140, 100); ctx.lineTo(180, 100);
+                ctx.lineTo(180, 150); ctx.lineTo(100, 150);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+            } else if (type === 'atas') {
+                tag.innerText = "PANDANGAN ATAS (2D)";
+                ctx.strokeRect(100, 60, 80, 80);
+                ctx.fillRect(100, 60, 80, 80);
+                ctx.beginPath(); ctx.moveTo(140, 60); ctx.lineTo(140, 140); ctx.stroke();
+            } else if (type === 'samping') {
+                tag.innerText = "PANDANGAN SAMPING (2D)";
+                ctx.strokeRect(110, 60, 60, 90);
+                ctx.fillRect(110, 60, 60, 90);
+                ctx.beginPath(); ctx.moveTo(110, 110); ctx.lineTo(170, 110); ctx.stroke();
+            }
+        }
+
+        /* =============================================================
+         * MODUL 4: ETIKET BUILDER
+         * =========================================================== */
+        function updateEtiketBuilder() {
+            const j = document.getElementById('input-judul').value || '[JUDUL GAMBAR]';
+            const n = document.getElementById('input-nama').value || '[NAMA PEMBUAT]';
+            const i = document.getElementById('input-instansi').value || '[NAMA INSTANSI]';
+            const s = document.getElementById('input-skala').value;
+
+            document.getElementById('etiket-view-judul').innerText = j.toUpperCase();
+            document.getElementById('etiket-view-nama').innerText = n.toUpperCase();
+            document.getElementById('etiket-view-instansi').innerText = `INSTANSI: ${i.toUpperCase()}`;
+            document.getElementById('etiket-view-skala').innerText = `SKALA: ${s}`;
+        }
+
+        /* =============================================================
+         * FEATURE: LAB GARIS CANVAS INTERAKTIF
+         * =========================================================== */
+        let labCanvas, labCtx;
+        let isDrawing = false;
+        let labTool = { width: 4, dash: [] };
+
+        function initLabCanvas() {
+            labCanvas = document.getElementById('lab-canvas');
+            labCtx = labCanvas.getContext('2d');
+
+            labCanvas.addEventListener('mousedown', startDraw);
+            labCanvas.addEventListener('mousemove', draw);
+            labCanvas.addEventListener('mouseup', stopDraw);
+
+            labCanvas.addEventListener('touchstart', (e) => { startDraw(e.touches[0]); e.preventDefault(); });
+            labCanvas.addEventListener('touchmove', (e) => { draw(e.touches[0]); e.preventDefault(); });
+            labCanvas.addEventListener('touchend', stopDraw);
+        }
+
+        function setLabTool(width, style) {
+            playSound('click');
+            labTool.width = width;
+            labTool.dash = style === 'dashed' ? [12, 6] : [];
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const rect = labCanvas.getBoundingClientRect();
+            labCtx.beginPath();
+            labCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = labCanvas.getBoundingClientRect();
+            labCtx.lineWidth = labTool.width;
+            labCtx.strokeStyle = '#2C2C2C';
+            labCtx.setLineDash(labTool.dash);
+            labCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            labCtx.stroke();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        function clearLabCanvas() {
+            playSound('click');
+            if (labCtx) labCtx.clearRect(0, 0, labCanvas.width, labCanvas.height);
+        }
+
+        /* =============================================================
+         * FEATURE: KUIS INTERAKTIF & EVALUASI
+         * =========================================================== */
+        const quizBank = [
+            {
+                q: "Pensil manakah yang paling keras dan cocok untuk membuat garis proyeksi tipis?",
+                opts: ["2B", "HB", "2H", "6B"],
+                ans: 2,
+                exp: "Pensil seri H (Hard) seperti 2H bertekstur keras dan menghasilkan garis tipis presisi."
+            },
+            {
+                q: "Ukuran kertas gambar standar ISO yang berdimensi 297 x 420 mm adalah...",
+                opts: ["A1", "A2", "A3", "A4"],
+                ans: 2,
+                exp: "Kertas A3 berukuran 297 x 420 mm."
+            },
+            {
+                q: "Garis putus-putus (dashed line) dalam gambar teknik digunakan untuk...",
+                opts: ["Garis Utama", "Garis Benda Terhalang", "Garis Sumbu", "Garis Arsir"],
+                ans: 1,
+                exp: "Garis putus-putus menunjukkan bagian objek terhalang dari pandangan."
+            },
+            {
+                q: "Pada Proyeksi Eropa (Kuadran I), letak pandangan ATAS relatif terhadap pandangan depan adalah di...",
+                opts: ["Atas", "Bawah", "Samping Kiri", "Samping Kanan"],
+                ans: 1,
+                exp: "Ciri khas Proyeksi Eropa adalah terbalik: Pandangan Atas diletakkan di BAWAH."
+            },
+            {
+                q: "Posisi standar Etiket Gambar (Kepala Gambar) pada kertas adalah di sudut...",
+                opts: ["Kiri Atas", "Kanan Atas", "Kiri Bawah", "Kanan Bawah"],
+                ans: 3,
+                exp: "Etiket gambar selalu berada di sudut kanan bawah kertas."
+            }
+        ];
+
+        let quizState = { currentIndex: 0, score: 0, answered: false };
+
+        function startQuiz() {
+            quizState = { currentIndex: 0, score: 0, answered: false };
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            quizState.answered = false;
+            const q = quizBank[quizState.currentIndex];
+
+            document.getElementById('quiz-question-counter').innerText = `Soal ${quizState.currentIndex + 1} dari ${quizBank.length}`;
+            document.getElementById('quiz-live-score').innerText = `Skor: ${quizState.score}`;
+            document.getElementById('quiz-question-text').innerText = q.q;
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+            document.getElementById('btn-next-question').classList.add('hidden');
+
+            const container = document.getElementById('quiz-options-box');
+            container.innerHTML = q.opts.map((opt, idx) => `
+                <button onclick="submitAnswer(${idx})" class="quiz-opt-btn w-full p-3.5 rounded-2xl border-2 border-pinkbrand-100 bg-white hover:bg-pinkbrand-50 text-left font-title font-bold text-xs text-gray-700 transition flex items-center justify-between">
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    <i class="fa-regular fa-circle text-gray-300"></i>
+                </button>
+            `).join('');
+        }
+
+        function submitAnswer(idx) {
+            if (quizState.answered) return;
+            quizState.answered = true;
+
+            const q = quizBank[quizState.currentIndex];
+            const isCorrect = idx === q.ans;
+            const btns = document.querySelectorAll('.quiz-opt-btn');
+            const feedback = document.getElementById('quiz-feedback-box');
+
+            if (isCorrect) {
+                playSound('correct');
+                quizState.score += 20;
+                btns[idx].className = "quiz-opt-btn w-full p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-title font-bold text-xs text-emerald-800 flex items-center justify-between";
+                btns[idx].querySelector('i').className = "fa-solid fa-circle-check text-emerald-500";
+                
+                feedback.className = "p-3.5 rounded-2xl text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerHTML = `🎉 Benar! ${q.exp}`;
+            } else {
+                playSound('wrong');
+                btns[idx].className = "quiz-opt-btn w-full p-3.5 rounded-2xl border-2 border-rose-500 bg-rose-50 font-title font-bold text-xs text-rose-800 flex items-center justify-between";
+                btns[idx].querySelector('i').className = "fa-solid fa-circle-xmark text-rose-500";
+                btns[q.ans].className = "quiz-opt-btn w-full p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50 font-title font-bold text-xs text-emerald-800 flex items-center justify-between";
+
+                feedback.className = "p-3.5 rounded-2xl text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300";
+                feedback.innerHTML = `❌ Kurang Tepat. Jawaban benar: ${q.opts[q.ans]}. <br><span class="font-normal">${q.exp}</span>`;
+            }
+
+            feedback.classList.remove('hidden');
+            document.getElementById('quiz-live-score').innerText = `Skor: ${quizState.score}`;
+
+            const btnNext = document.getElementById('btn-next-question');
+            btnNext.innerText = quizState.currentIndex < quizBank.length - 1 ? "Pertanyaan Selanjutnya →" : "Lihat Hasil Kuis ✨";
+            btnNext.classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            playSound('click');
+            if (quizState.currentIndex < quizBank.length - 1) {
+                quizState.currentIndex++;
+                loadQuestion();
+            } else {
+                if (quizState.score > state.quizHighScore) {
+                    state.quizHighScore = quizState.score;
+                }
+                state.xp += quizState.score;
+                saveState();
+                fireConfetti();
+                navTo('certificate');
+            }
+        }
+
+        /* =============================================================
+         * FE
